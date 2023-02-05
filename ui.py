@@ -31,7 +31,8 @@ class QuizInterface:
         self.correct_button = tkinter.Button(
             image=correct_image,
             bg=THEME_COLOR,
-            highlightthickness=0
+            highlightthickness=0,
+            command=self.correct_pressed,
         )
         self.correct_button.grid(row=3, column=1)
 
@@ -39,7 +40,8 @@ class QuizInterface:
         self.wrong_button = tkinter.Button(
             image=wrong_image,
             bg=THEME_COLOR,
-            highlightthickness=0
+            highlightthickness=0,
+            command=self.wrong_pressed,
         )
         self.wrong_button.grid(row=3, column=2)
 
@@ -48,5 +50,23 @@ class QuizInterface:
         self.window.mainloop()
 
     def get_next_question(self):
+        self.canvas.config(bg="white")
         q_text = self.quiz.next_question()
         self.canvas.itemconfig(self.question_text, text=q_text)
+
+    def correct_pressed(self):
+        self.give_feedback(self.quiz.check_answer("True"))
+
+    def wrong_pressed(self):
+        self.give_feedback(self.quiz.check_answer("False"))
+
+    def give_feedback(self, is_right):
+        if is_right:
+            self.canvas.config(bg="green")
+        else:
+            self.canvas.config(bg="red")
+
+        self.window.after(1000, self.get_next_question)
+
+
+
