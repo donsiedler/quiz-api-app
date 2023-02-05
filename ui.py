@@ -20,6 +20,7 @@ class QuizInterface:
         self.question_text = self.canvas.create_text(
             150,
             125,
+            width=280,
             text="Question placeholder",
             font=("Arial", 20, "italic"),
             fill=THEME_COLOR,
